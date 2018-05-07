@@ -9,24 +9,7 @@ import java.util.List;
  * Date: 06/05/18
  */
 
-public class DataSource {
-
-    public static final String DB_NAME = "music.db";
-    public static final String DB_STRING = "jdbc:sqlite:/home/chirag/IdeaProjects/MusicDB/" + DB_NAME;
-
-    public static final String TABLE_ALBUMS = "albums";
-    public static final String COLUMN_ALBUMS_ID = "_id";
-    public static final String COLUMN_ALBUMS_NAME = "name";
-    public static final String COLUMN_ALBUMS_ARTIST = "artist";
-
-    public static final String TABLE_ARTISTS = "artists";
-    public static final String COLUMN_ARTISTS_ID = "_id";
-    public static final String COLUMN_ARTISTS_NAME = "name";
-
-    public static final String TABLE_SONGS = "songs";
-    public static final String COLUMN_SONGS_TRACK = "track";
-    public static final String COLUMN_SONGS_TITLE = "title";
-    public static final String COLUMN_SONGS_ALBUM = "album";
+public class DataSource extends musicDB {
 
     private Connection connection;
 
@@ -50,13 +33,29 @@ public class DataSource {
         }
     }
 
-    public List<Artist> queryArtist() {
+    public List<Artist> queryArtist(int sortOrder) {
 
+        StringBuilder sb = new StringBuilder("SELECT * FROM ");
+        sb.append(TABLE_ARTISTS);
+        if (sortOrder != ORDER_BY_NONE) {
+            sb.append(" ORDER BY ");
+            sb.append(COLUMN_ARTISTS_NAME);
+            sb.append(" COLLATE NOCASE ");
+            if (sortOrder == ORDER_BY_DESC) {
+                sb.append("DESC");
+            } else {
+                sb.append("ASC");
+            }
+
+        }
 //        Statement statement = null;
 //        ResultSet result = null;
 
         try (Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
+             ResultSet result = statement.executeQuery(sb.toString())) {
+
+            //  "SELECT * FROM " + TABLE_ARTISTS is replaced with sb.toString()
+            //  to set order of the artist to either Ascending order or descending order.
 
 //            statement = connection.createStatement();
 //            result = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
@@ -64,8 +63,8 @@ public class DataSource {
             List<Artist> artistsList = new ArrayList<>();
             while (result.next()) {
                 Artist artist = new Artist();
-                artist.setId(result.getInt(COLUMN_ARTISTS_ID));
-                artist.setName(result.getString(COLUMN_ARTISTS_NAME));
+                artist.setId(result.getInt(INDEX_ARTIST_ID));
+                artist.setName(result.getString(INDEX_ARTIST_NAME));
                 artistsList.add(artist);
             }
             return artistsList;

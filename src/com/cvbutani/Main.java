@@ -16,14 +16,14 @@ public class Main {
         DataSource dataSource = new DataSource();
         dataSource.open();
 
-        List<Artist> artists = dataSource.queryArtist();
-        if(artists == null){
+        List<Artist> artists = dataSource.queryArtist(DataSource.ORDER_BY_DESC);
+        if (artists == null) {
             System.out.println("No Artist");
         }
-
-        for(Artist artist: artists){
-            System.out.println( "ID: " + artist.getId() + ", Name: " + artist.getName());
+        for (Artist artist : artists) {
+            System.out.println("ID: " + artist.getId() + ", Name: " + artist.getName());
         }
+
         dataSource.close();
     }
 }
