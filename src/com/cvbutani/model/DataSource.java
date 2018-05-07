@@ -1,8 +1,8 @@
 package com.cvbutani.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: cvbutani
@@ -33,11 +33,11 @@ public class DataSource {
     public boolean open() {
         try {
             connection = DriverManager.getConnection(DB_STRING);
+            return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database: " + e.getMessage());
             return false;
         }
-        return true;
     }
 
     public void close() {
@@ -50,5 +50,49 @@ public class DataSource {
         }
     }
 
+    public List<Artist> queryArtist() {
+
+//        Statement statement = null;
+//        ResultSet result = null;
+
+        try (Statement statement = connection.createStatement();
+             ResultSet result = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
+
+//            statement = connection.createStatement();
+//            result = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
+
+            List<Artist> artistsList = new ArrayList<>();
+            while (result.next()) {
+                Artist artist = new Artist();
+                artist.setId(result.getInt(COLUMN_ARTISTS_ID));
+                artist.setName(result.getString(COLUMN_ARTISTS_NAME));
+                artistsList.add(artist);
+            }
+            return artistsList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+//        finally {
+//            try {
+//                if (result != null) {
+//                    result.close();
+//                }
+//            } catch (SQLException e) {
+//                System.out.println("Not able to close Result" + e.getMessage());
+//            }
+//            try {
+//                if (statement != null) {
+//                    statement.close();
+//                }
+//            } catch (SQLException e) {
+//                System.out.println("Not able to close Statement "+ e.getMessage());
+//            }
+//        }
+    }
 
 }
+
+
+

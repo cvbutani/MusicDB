@@ -1,6 +1,9 @@
 package com.cvbutani;
 
+import com.cvbutani.model.Artist;
 import com.cvbutani.model.DataSource;
+
+import java.util.List;
 
 /**
  * Author: cvbutani
@@ -11,9 +14,15 @@ public class Main {
 
     public static void main(String[] args) {
         DataSource dataSource = new DataSource();
-        if (dataSource.open()){
-            System.out.println("Can't open DataSource");
-            return;
+        dataSource.open();
+
+        List<Artist> artists = dataSource.queryArtist();
+        if(artists == null){
+            System.out.println("No Artist");
+        }
+
+        for(Artist artist: artists){
+            System.out.println( "ID: " + artist.getId() + ", Name: " + artist.getName());
         }
         dataSource.close();
     }
