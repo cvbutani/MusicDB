@@ -99,6 +99,37 @@ public class DataSource extends musicDB {
         }
     }
 
+    public boolean createSongForArtist() {
+
+        try (Statement statement = connection.createStatement()) {
+
+            statement.execute(CREATE_ARTIST_FOR_SONG_VIEW);
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getCount(String table) {
+
+        String sql = "SELECT COUNT(*) AS count, MIN(_id) AS min_id FROM " + table;
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            int count = resultSet.getInt("count");
+            int min = resultSet.getInt("min_id");
+            System.out.println("Minimum: " + min);
+            return count;
+
+        } catch (SQLException e) {
+            System.out.println("Query Failed: " + e.getMessage());
+            return -1;
+        }
+    }
+
     public String setInOrder(String startMethodName, String name, String sortMethodName, int sortOrder) {
         StringBuilder sb = new StringBuilder(startMethodName);
         if (name != null) {

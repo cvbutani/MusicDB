@@ -3,6 +3,7 @@ package com.cvbutani;
 import com.cvbutani.model.Artist;
 import com.cvbutani.model.DataSource;
 import com.cvbutani.model.SongArtist;
+import com.cvbutani.model.musicDB;
 
 import java.util.List;
 
@@ -41,6 +42,11 @@ public class Main {
         for (SongArtist songArtist : songArtists) {
             System.out.println("Song Album: " + songArtist.getAlbumName() + ", Album Artist: " + songArtist.getArtistName() + ", Songs: " + songArtist.getTrack());
         }
+
+        int count = dataSource.getCount(musicDB.TABLE_SONGS);
+        System.out.println("Number of song is: " + count);
+
+        dataSource.createSongForArtist();
 
         dataSource.close();
     }
