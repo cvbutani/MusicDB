@@ -11,15 +11,11 @@ import java.util.List;
 
 public class DataSource extends musicDB {
 
-    private Connection connection;
-
-    public boolean open() {
+    public void open() {
         try {
             connection = DriverManager.getConnection(DB_STRING);
-            return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database: " + e.getMessage());
-            return false;
         }
     }
 
@@ -35,29 +31,14 @@ public class DataSource extends musicDB {
 
     public List<Artist> queryArtist(int sortOrder) {
 
-        StringBuilder sb = new StringBuilder(QUARY_ARTIST_START);
-        if (sortOrder != ORDER_BY_NONE) {
-            sb.append(QUARY_ARTIST_SORT);
-            if (sortOrder == ORDER_BY_DESC) {
-                sb.append("DESC");
-            } else {
-                sb.append("ASC");
-            }
-
-        }
-//        Statement statement = null;
-//        ResultSet result = null;
+        String sb = setInOrder(QUARY_ARTIST_START, null, QUARY_ARTIST_SORT, sortOrder);
+        System.out.println("SQL statement: " + sb);
 
         try (Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(sb.toString())) {
-
-            //  "SELECT * FROM " + TABLE_ARTISTS is replaced with sb.toString()
-            //  to set order of the artist to either Ascending order or descending order.
-
-//            statement = connection.createStatement();
-//            result = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
+             ResultSet result = statement.executeQuery(sb)) {
 
             List<Artist> artistsList = new ArrayList<>();
+
             while (result.next()) {
                 Artist artist = new Artist();
                 artist.setId(result.getInt(INDEX_ARTIST_ID));
@@ -70,74 +51,18 @@ public class DataSource extends musicDB {
             e.printStackTrace();
             return null;
         }
-//        finally {
-//            try {
-//                if (result != null) {
-//                    result.close();
-//                }
-//            } catch (SQLException e) {
-//                System.out.println("Not able to close Result" + e.getMessage());
-//            }
-//            try {
-//                if (statement != null) {
-//                    statement.close();
-//                }
-//            } catch (SQLException e) {
-//                System.out.println("Not able to close Statement "+ e.getMessage());
-//            }
-//        }
     }
 
-    public List<String> quaryAlbumsForArtists(String artistName, int sortOrder){
+    public List<String> queryAlbumsForArtists(String artistName, int sortOrder) {
 
-        //SELECT albums.name FROM albums INNER JOIN artists ON albums.artist=artists._id WHERE artists.name = "Carole King" ORDER BY albums.name COLLATE NOCASE ASC
-
-//        StringBuilder sb = new StringBuilder("SELECT ");
-//        sb.append(TABLE_ALBUMS);
-//        sb.append('.');
-//        sb.append(COLUMN_ALBUMS_NAME);
-//        sb.append(" FROM ");
-//        sb.append(TABLE_ALBUMS);
-//        sb.append(" INNER JOIN ");
-//        sb.append(TABLE_ARTISTS);
-//        sb.append(" ON ");
-//        sb.append(TABLE_ALBUMS);
-//        sb.append('.');
-//        sb.append(COLUMN_ALBUMS_ARTIST);
-//        sb.append(" = ");
-//        sb.append(TABLE_ARTISTS);
-//        sb.append('.');
-//        sb.append(COLUMN_ARTISTS_ID);
-//        sb.append(" WHERE ");
-//        sb.append(TABLE_ARTISTS);
-//        sb.append('.');
-//        sb.append(COLUMN_ARTISTS_NAME);
-//        sb.append(" = \"");
-//        sb.append(artistName);
-//        sb.append("\"");
-        StringBuilder sb = new StringBuilder(QUERY_ALBUMS_BY_ARTIST_START);
-        sb.append(artistName);
-        sb.append("\"");
-
-        if (sortOrder != ORDER_BY_NONE) {
-//            sb.append(" ORDER BY ");
-//            sb.append(TABLE_ALBUMS);
-//            sb.append('.');
-//            sb.append(COLUMN_ALBUMS_NAME);
-//            sb.append(" COLLATE NOCASE ");
-            sb.append(QUERY_ALBUMS_BY_ARTIST_SORT);
-            if (sortOrder == ORDER_BY_DESC) {
-                sb.append("DESC");
-            } else {
-                sb.append("ASC");
-            }
-        }
-        System.out.println("SQL statement: " + sb.toString());
+        String sb = setInOrder(QUERY_ALBUMS_BY_ARTIST_START, artistName, QUERY_ALBUMS_BY_ARTIST_SORT, sortOrder);
+        System.out.println("SQL statement: " + sb);
 
         try (Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(sb.toString())) {
+             ResultSet result = statement.executeQuery(sb)) {
 
             List<String> albums = new ArrayList<>();
+
             while (result.next()) {
                 albums.add(result.getString(1));
             }
@@ -147,6 +72,49 @@ public class DataSource extends musicDB {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<SongArtist> queryArtistForSong(String songName, int sortOrder) {
+
+        String sb = setInOrder(QUERY_ARTISTS_FOR_SONG_START, songName, QUERY_ARTISTS_FOR_SONG_SORT, sortOrder);
+        System.out.println("SQL Statement: " + sb);
+
+        try (Statement statement = connection.createStatement();
+             ResultSet result = statement.executeQuery(sb)) {
+
+            List<SongArtist> songArtistList = new ArrayList<>();
+
+            while (result.next()) {
+                SongArtist songArtist = new SongArtist();
+                songArtist.setArtistName(result.getString(1));
+                songArtist.setAlbumName(result.getString(2));
+                songArtist.setTrack(result.getInt(3));
+                songArtistList.add(songArtist);
+            }
+            return songArtistList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String setInOrder(String startMethodName, String name, String sortMethodName, int sortOrder) {
+        StringBuilder sb = new StringBuilder(startMethodName);
+        if (name != null) {
+            sb.append(name);
+            sb.append("\"");
+        }
+
+        if (sortOrder != ORDER_BY_NONE) {
+            sb.append(sortMethodName);
+            if (sortOrder == ORDER_BY_DESC) {
+                sb.append("DESC");
+            } else {
+                sb.append("ASC");
+            }
+        }
+        return sb.toString();
     }
 
 }

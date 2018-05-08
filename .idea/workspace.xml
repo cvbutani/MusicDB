@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5295d8b4-3182-42d7-a02d-dd3f8894fa12" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/MusicDB/com/cvbutani/model/ImusicDB.class" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/cvbutani/model/SongArtist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MusicDB/com/cvbutani/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MusicDB/com/cvbutani/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/cvbutani/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/cvbutani/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/cvbutani/model/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/cvbutani/model/DataSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/cvbutani/model/musicDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/cvbutani/model/musicDB.java" afterDir="false" />
@@ -34,8 +36,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cvbutani/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="421">
+              <caret line="29" column="46" lean-forward="true" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,8 +48,8 @@
       <file leaf-file-name="DataSource.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/DataSource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="41" column="22" lean-forward="true" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+            <state relative-caret-position="441">
+              <caret line="77" column="8" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -58,8 +60,31 @@
       <file leaf-file-name="musicDB.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/musicDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="601">
-              <caret line="41" column="106" selection-start-line="41" selection-start-column="106" selection-end-line="41" selection-end-column="106" />
+            <state relative-caret-position="760">
+              <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SongArtist.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/SongArtist.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="740">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
+              <folding>
+                <element signature="e#222#223#0" expanded="true" />
+                <element signature="e#255#256#0" expanded="true" />
+                <element signature="e#307#308#0" expanded="true" />
+                <element signature="e#351#352#0" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#419#420#0" expanded="true" />
+                <element signature="e#469#470#0" expanded="true" />
+                <element signature="e#511#512#0" expanded="true" />
+                <element signature="e#540#541#0" expanded="true" />
+                <element signature="e#568#569#0" expanded="true" />
+                <element signature="e#607#608#0" expanded="true" />
+                <element signature="e#641#642#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -151,8 +176,9 @@
         <option value="$PROJECT_DIR$/src/com/cvbutani/model/Album.java" />
         <option value="$PROJECT_DIR$/src/com/cvbutani/model/Song.java" />
         <option value="$PROJECT_DIR$/src/com/cvbutani/model/ImusicDB.java" />
-        <option value="$PROJECT_DIR$/src/com/cvbutani/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/cvbutani/model/SongArtist.java" />
         <option value="$PROJECT_DIR$/src/com/cvbutani/model/musicDB.java" />
+        <option value="$PROJECT_DIR$/src/com/cvbutani/Main.java" />
         <option value="$PROJECT_DIR$/src/com/cvbutani/model/DataSource.java" />
       </list>
     </option>
@@ -166,11 +192,11 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="989" />
-    <option name="y" value="-4" />
-    <option name="width" value="931" />
-    <option name="height" value="1084" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="529" />
+    <option name="y" value="34" />
+    <option name="width" value="996" />
+    <option name="height" value="1020" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -277,12 +303,12 @@
       <option name="presentableId" value="Default" />
       <updated>1525645964636</updated>
       <workItem from="1525645966399" duration="2203000" />
-      <workItem from="1525728004276" duration="9790000" />
+      <workItem from="1525728004276" duration="13678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11993000" />
+    <option name="totallyTimeSpent" value="15881000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="-4" width="1861" height="1084" extended-state="6" />
@@ -299,10 +325,10 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.31794333" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.33945945" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.33892968" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.38079095" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.38071626" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -426,20 +452,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cvbutani/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/SongArtist.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="740">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#222#223#0" expanded="true" />
+            <element signature="e#255#256#0" expanded="true" />
+            <element signature="e#307#308#0" expanded="true" />
+            <element signature="e#351#352#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#419#420#0" expanded="true" />
+            <element signature="e#469#470#0" expanded="true" />
+            <element signature="e#511#512#0" expanded="true" />
+            <element signature="e#540#541#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#607#608#0" expanded="true" />
+            <element signature="e#641#642#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/musicDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="41" column="106" selection-start-line="41" selection-start-column="106" selection-end-line="41" selection-end-column="106" />
         </state>
       </provider>
     </entry>
@@ -460,10 +490,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/musicDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cvbutani/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="29" column="46" lean-forward="true" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cvbutani/model/DataSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="41" column="22" lean-forward="true" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+        <state relative-caret-position="441">
+          <caret line="77" column="8" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -487,7 +534,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
