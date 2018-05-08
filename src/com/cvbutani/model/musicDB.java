@@ -37,4 +37,15 @@ public class musicDB {
     public static final int ORDER_BY_NONE = 1;
     public static final int ORDER_BY_ASC = 2;
     public static final int ORDER_BY_DESC = 3;
+
+    public static final String QUARY_ARTIST_START = "SELECT * FROM " + TABLE_ARTISTS;
+    public static final String QUARY_ARTIST_SORT = " ORDER BY " + COLUMN_ARTISTS_NAME + " COLLATE NOCASE ";
+
+    public static final String QUERY_ALBUMS_BY_ARTIST_START =
+                    "SELECT " + TABLE_ALBUMS + '.' + COLUMN_ALBUMS_NAME + " FROM " + TABLE_ALBUMS +
+                    " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + '.' + COLUMN_ALBUMS_ARTIST + " = " +
+                    TABLE_ARTISTS + '.' +  COLUMN_ARTISTS_ID + " WHERE " + TABLE_ARTISTS + '.' +
+                    COLUMN_ARTISTS_NAME + " = \"";
+
+    public static final String QUERY_ALBUMS_BY_ARTIST_SORT = " ORDER BY " + TABLE_ALBUMS + '.' + COLUMN_ALBUMS_NAME + " COLLATE NOCASE ";
 }

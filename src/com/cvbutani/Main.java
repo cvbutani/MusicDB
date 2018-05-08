@@ -24,6 +24,12 @@ public class Main {
             System.out.println("ID: " + artist.getId() + ", Name: " + artist.getName());
         }
 
+        List<String> albumsOfArtist = dataSource.quaryAlbumsForArtists("Iron Maiden", DataSource.ORDER_BY_ASC);
+
+        for (String artist : albumsOfArtist) {
+            System.out.println("Name: " + artist);
+        }
+
         dataSource.close();
     }
 }
