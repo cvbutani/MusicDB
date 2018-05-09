@@ -11,9 +11,12 @@ import java.util.List;
 
 public class DataSource extends musicDB {
 
+    private PreparedStatement querySongInfoView;
+
     public void open() {
         try {
             connection = DriverManager.getConnection(DB_STRING);
+            querySongInfoView = connection.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database: " + e.getMessage());
         }
@@ -21,6 +24,9 @@ public class DataSource extends musicDB {
 
     public void close() {
         try {
+            if (querySongInfoView != null) {
+               querySongInfoView.close();
+            }
             if (connection != null) {
                 connection.close();
             }
@@ -130,10 +136,28 @@ public class DataSource extends musicDB {
         return sb.toString();
     }
 
-    public List<SongArtist> querySongInfoView(String title, int sortOrder) {
+    public List<SongArtist> querySongInfoView(String title) {
 
-        return displayDetails(QUERY_VIEW_SONG_INFO, title, null, sortOrder);
+//        return displayDetails(QUERY_VIEW_SONG_INFO, title, null, sortOrder);
 
+        try {
+            querySongInfoView.setString(1, title);
+            ResultSet resultSet = querySongInfoView.executeQuery();
+            List<SongArtist> songArtists = new ArrayList<>();
+
+            while (resultSet.next()) {
+                SongArtist songArtist = new SongArtist();
+                songArtist.setArtistName(resultSet.getString(1));
+                songArtist.setAlbumName(resultSet.getString(2));
+                songArtist.setTrack(resultSet.getInt(3));
+                songArtists.add(songArtist);
+            }
+            return songArtists;
+
+        } catch (SQLException e) {
+            System.out.println("Couldn't find artist or album from table !");
+            return null;
+        }
     }
 
     public List<SongArtist> displayDetails(String title, String name1, String name2, int sortOrder) {

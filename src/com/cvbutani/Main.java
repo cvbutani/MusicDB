@@ -6,6 +6,7 @@ import com.cvbutani.model.SongArtist;
 import com.cvbutani.model.musicDB;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Author: cvbutani
@@ -49,7 +50,11 @@ public class Main {
         dataSource.createSongForArtist();
         System.out.println();
 
-        songArtists = dataSource.querySongInfoView("Heartless", musicDB.ORDER_BY_NONE);
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter Song Name: ");
+        String title = input.nextLine();
+
+        songArtists = dataSource.querySongInfoView(title);
         if (songArtists == null) {
             System.out.println("Can't find artist for this song");
             return;
