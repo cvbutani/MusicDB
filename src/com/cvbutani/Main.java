@@ -64,6 +64,8 @@ public class Main {
             System.out.println("Song Album: " + songArtist.getAlbumName() + "\n" + ", Artist Name: " + songArtist.getArtistName() + "\n" + " , Songs: " + songArtist.getTrack());
         }
 
+        dataSource.insertSong("Touch of Grey", "Greatful Dead", "In The Dark", 1);
+
         dataSource.close();
     }
 }

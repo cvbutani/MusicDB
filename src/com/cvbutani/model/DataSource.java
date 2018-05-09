@@ -1,5 +1,6 @@
 package com.cvbutani.model;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,25 @@ public class DataSource extends musicDB {
 
     private PreparedStatement querySongInfoView;
 
+    private PreparedStatement insertIntoArtists;
+    private PreparedStatement insertIntoAlbums;
+    private PreparedStatement insertIntoSongs;
+
+    private PreparedStatement queryArtist;
+    private PreparedStatement queryAlbum;
+
     public void open() {
         try {
             connection = DriverManager.getConnection(DB_STRING);
             querySongInfoView = connection.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
+
+            insertIntoArtists = connection.prepareStatement(INSERT_ARTIST, Statement.RETURN_GENERATED_KEYS);
+            insertIntoAlbums = connection.prepareStatement(INSERT_ALBUMS, Statement.RETURN_GENERATED_KEYS);
+            insertIntoSongs = connection.prepareStatement(INSERT_SONG);
+
+            queryArtist = connection.prepareStatement(QUERY_ARTIST);
+            queryAlbum = connection.prepareStatement(QUERY_ALBUM);
+
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database: " + e.getMessage());
         }
@@ -25,7 +41,22 @@ public class DataSource extends musicDB {
     public void close() {
         try {
             if (querySongInfoView != null) {
-               querySongInfoView.close();
+                querySongInfoView.close();
+            }
+            if (insertIntoArtists != null) {
+                insertIntoArtists.close();
+            }
+            if (insertIntoAlbums != null) {
+                insertIntoAlbums.close();
+            }
+            if (insertIntoSongs != null) {
+                insertIntoSongs.close();
+            }
+            if (queryArtist != null) {
+                queryArtist.close();
+            }
+            if (queryAlbum != null) {
+                queryAlbum.close();
             }
             if (connection != null) {
                 connection.close();
@@ -182,6 +213,97 @@ public class DataSource extends musicDB {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Database Transaction should be ACID-Compliant. They must meet following characteristics:
+     * <p>
+     * 1. Atomicity:   If a series of SQL statements change the database, then wither all the changes
+     * are committed or none of them are.
+     * <p>
+     * 2. Consistency: Before a transaction begins, the database is in a valid state. When it completes,
+     * the database is still in a valid state.
+     * <p>
+     * 3. Isolation:   Until the changes committed by a transaction are completed, they won't be visible
+     * to other connections. Transactions can't depend on each other.
+     * <p>
+     * 4. Durability:  Once the changes performed by a transaction are committed to the database, the're
+     * permanent. If an application then crashes or the database server goes down (in the
+     * case of a client/server database like MYSQL), the changes made by the transaction
+     * are still there when the application runs again, or the database comes back up.
+     * <p>
+     * Essentially Transaction ensures integrity of the data within a database.
+     * <p>
+     * COMMANDS:
+     * 1.  BEGIN TRANSACTION:  To start transaction manually.
+     * 2.  END TRANSACTION:    To end a transaction. Committing changes automatically ends a transaction.
+     * Also, ending a transaction also commits any changes. In other words,
+     * END TRANSACTION and COMMIT are aliases. We only have to use one when we
+     * want to end a transaction and commit the changes.
+     * 3.  COMMIT:             use this to commit the changes made by a transaction. As mentioned, this
+     * ends the transaction, so we don't need to also run the END TRANSACTION COMMAND.
+     * 4.  ROLLBACK:           this rolls back any uncommitted changes and ends the transaction. Note that it
+     * can only rollback changes that have occurred since the last COMMIT or ROLLBACK.
+     */
+
+    public void insertSong(String title, String artist, String album, int track) {
+        try {
+            connection.setAutoCommit(false);
+
+            int artistID = updateDatabase(artist, queryArtist, insertIntoArtists, 0);
+            int albumID = updateDatabase(album, queryAlbum, insertIntoAlbums, artistID);
+
+            insertIntoSongs.setInt(1, track);
+            insertIntoSongs.setString(2, title);
+            insertIntoSongs.setInt(3, albumID);
+
+            int affectedRows = insertIntoSongs.executeUpdate();
+            if (affectedRows == 1) {
+                connection.commit();
+            } else {
+                throw new SQLException("The song insert failed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Insert song exception: " + e.getMessage());
+            try {
+                System.out.println("Performing Rollback");
+                connection.rollback();
+            } catch (SQLException e1) {
+                System.out.println("You are Fucked !!!!" + e.getMessage());
+            }
+        } finally {
+            try {
+                System.out.println("Resetting default commit behavior");
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.out.println("Couldn't reset auto-commit !!" + e.getMessage());
+            }
+        }
+    }
+
+    private int updateDatabase(String name, PreparedStatement queryStatement, PreparedStatement addStatement, int artistId) throws SQLException {
+        queryStatement.setString(1, name);
+
+        ResultSet results = queryStatement.executeQuery();
+        if (results.next()) {
+            return results.getInt(1);
+        } else {
+            addStatement.setString(1, name);
+            if (artistId != 0) {
+                addStatement.setInt(2, artistId);
+            }
+            int affectedRow = addStatement.executeUpdate();
+
+            if (affectedRow != 1) {
+                throw new SQLException("Couldn't insert ");
+            }
+            ResultSet generatedKeys = addStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Couldn't get anything !");
+            }
         }
     }
 }
