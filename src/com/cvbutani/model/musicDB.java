@@ -79,4 +79,9 @@ public class musicDB {
                     TABLE_ARTISTS + '.' + COLUMN_ARTISTS_NAME + ", " + TABLE_ALBUMS +
                     '.' + COLUMN_ALBUMS_NAME + ", " + TABLE_SONGS + '.' + COLUMN_SONGS_TRACK;
 
+    public static final String QUERY_VIEW_SONG_INFO =
+            "SELECT " + COLUMN_ARTISTS_NAME + ", " + COLUMN_SONGS_ALBUM + ", " + COLUMN_SONGS_TRACK + " FROM " +
+            TABLE_ARTIST_SONG_VIEW + " WHERE " + COLUMN_SONGS_TITLE + " = \"";
+
+
 }

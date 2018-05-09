@@ -47,6 +47,17 @@ public class Main {
         System.out.println("Number of song is: " + count);
 
         dataSource.createSongForArtist();
+        System.out.println();
+
+        songArtists = dataSource.querySongInfoView("Heartless", musicDB.ORDER_BY_NONE);
+        if (songArtists == null) {
+            System.out.println("Can't find artist for this song");
+            return;
+        }
+
+        for (SongArtist songArtist : songArtists) {
+            System.out.println("Song Album: " + songArtist.getAlbumName() + "\n" + ", Artist Name: " + songArtist.getArtistName() + "\n" + " , Songs: " + songArtist.getTrack());
+        }
 
         dataSource.close();
     }

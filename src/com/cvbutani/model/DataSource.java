@@ -76,27 +76,8 @@ public class DataSource extends musicDB {
 
     public List<SongArtist> queryArtistForSong(String songName, int sortOrder) {
 
-        String sb = setInOrder(QUERY_ARTISTS_FOR_SONG_START, songName, QUERY_ARTISTS_FOR_SONG_SORT, sortOrder);
-        System.out.println("SQL Statement: " + sb);
+        return displayDetails(QUERY_ARTISTS_FOR_SONG_START, songName, QUERY_ARTISTS_FOR_SONG_SORT, sortOrder);
 
-        try (Statement statement = connection.createStatement();
-             ResultSet result = statement.executeQuery(sb)) {
-
-            List<SongArtist> songArtistList = new ArrayList<>();
-
-            while (result.next()) {
-                SongArtist songArtist = new SongArtist();
-                songArtist.setArtistName(result.getString(1));
-                songArtist.setAlbumName(result.getString(2));
-                songArtist.setTrack(result.getInt(3));
-                songArtistList.add(songArtist);
-            }
-            return songArtistList;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public boolean createSongForArtist() {
@@ -136,18 +117,49 @@ public class DataSource extends musicDB {
             sb.append(name);
             sb.append("\"");
         }
-
-        if (sortOrder != ORDER_BY_NONE) {
-            sb.append(sortMethodName);
-            if (sortOrder == ORDER_BY_DESC) {
-                sb.append("DESC");
-            } else {
-                sb.append("ASC");
+        if (sortMethodName != null) {
+            if (sortOrder != ORDER_BY_NONE) {
+                sb.append(sortMethodName);
+                if (sortOrder == ORDER_BY_DESC) {
+                    sb.append("DESC");
+                } else {
+                    sb.append("ASC");
+                }
             }
         }
         return sb.toString();
     }
 
+    public List<SongArtist> querySongInfoView(String title, int sortOrder) {
+
+        return displayDetails(QUERY_VIEW_SONG_INFO, title, null, sortOrder);
+
+    }
+
+    public List<SongArtist> displayDetails(String title, String name1, String name2, int sortOrder) {
+
+        String sb = setInOrder(title, name1, name2, sortOrder);
+        System.out.println("SQL statement: " + sb);
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sb)) {
+
+            List<SongArtist> songArtists = new ArrayList<>();
+
+            while (resultSet.next()) {
+                SongArtist songArtist = new SongArtist();
+                songArtist.setArtistName(resultSet.getString(1));
+                songArtist.setAlbumName(resultSet.getString(2));
+                songArtist.setTrack(resultSet.getInt(3));
+                songArtists.add(songArtist);
+            }
+            return songArtists;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 
 
